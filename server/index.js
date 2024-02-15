@@ -51,7 +51,7 @@ async function executeFunction(addfunc) {
     console.error('Error occurred while creating function:', error);
   }
 }
- executeFunction(filterBy)
+//  executeFunction(filterBy)
 createTable();
 app.use('/',router);
 

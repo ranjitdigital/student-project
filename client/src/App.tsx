@@ -92,12 +92,9 @@ const App: React.FC = () => {
         };
     });
         const data2=res2.data;
-        console.log({transformedData})
         setSub(data2)
-     setData(transformedData)
-        // Use the fetched data here
+        setData(transformedData)
     } catch (error) {
-        // Handle errors
         console.error('Error fetching data:', error);
     }
 };
@@ -107,17 +104,13 @@ useEffect(()=>{
 },[searchTerm])
 
   useEffect(()=>{
-   
-
   fetchData();
+ },[])
 
+const isEditing = (record: Item) => record.id === editingKey;
 
-  },[])
+const edit = (record: Partial<Item> & { id: React.Key }) => {
 
-  const isEditing = (record: Item) => record.id === editingKey;
-
-  const edit = (record: Partial<Item> & { id: React.Key }) => {
-    console.log({record})
     form.setFieldsValue({ first_name: '', last_name: '', email: '', ...record });
     setEditingKey(record?.id);
   };
@@ -133,8 +126,6 @@ useEffect(()=>{
   const save = async (email:string) => {
     try {
       const row = (await form.validateFields()) as Item;
-      console.log({email})
-
       const newData = [...data];
       const res = await axios.patch(`http://localhost:4001/${email}`,row);
       if(res.status===200){
@@ -175,7 +166,7 @@ useEffect(()=>{
     const res = await axios.post(`http://localhost:4001/student`,formData);
     if(res.status===201){
      await fetchData()      
-        alert('student created successfully')
+      alert('student created successfully')
 
     }else{
 
@@ -265,9 +256,9 @@ useEffect(()=>{
 
   return (
     <>
-    <h1 className="text-4xl font-bold mb-4">Student Management</h1>
+    <h1 className="text-4xl font-bold mb-4 mx-10">Student Management</h1>
 
-<form onSubmit={handleSubmit}  className="mb-4">
+   <form onSubmit={handleSubmit}  className="mb-4 mx-8">
   <div className="grid grid-cols-2 gap-4">
     <div>
       <label className="block mb-2">First Name</label>
@@ -323,7 +314,7 @@ useEffect(()=>{
   </div>
 
 
-  <button type="submit" className="bg-blue-500 text-white px-4 py-2">
+  <button type="submit" className="bg-blue-500 text-white px-4 py-2 mb-2">
     Save
   </button>
   <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2">

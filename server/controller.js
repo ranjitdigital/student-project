@@ -16,7 +16,7 @@ exports.createStudent = async (req, res) => {
         if (firstName.length < 3 || lastName.length < 3) {
             return res.status(400).send({ message: "please provide vaild firstname or lastname" })
         }
-        const subjectIds = subjects.map(Number); // Convert subject strings to integers
+        const subjectIds = subjects.map(Number); 
         if (subjectIds.length < 2 || subjectIds.length > 5) {
             return res.status(400).send({ message: "please add more than 2 or less than 6 subjects" })
         } else {
@@ -42,7 +42,7 @@ exports.createStudent = async (req, res) => {
 
 exports.allStudents = async (req, res) => {
     try {
-        const { search,limit=5,pageNumber=1 } = req.query;
+        const { search,limit=10,pageNumber=1 } = req.query;
         let query = 'SELECT * FROM tbl_students';
         let offset=(pageNumber-1)*limit;
     
@@ -52,9 +52,8 @@ exports.allStudents = async (req, res) => {
           if (result.rows.length < 1) {
             return res.status(404).send({ message: "student not found" })
         }
-          return res.send(result.rows);
-        }
-       
+          return res. status(200).send(result.rows);
+        } 
         const result = await pool.query(
             `SELECT * FROM tbl_students ORDER BY id DESC LIMIT $1 OFFSET $2`,
             [limit, offset]
@@ -96,7 +95,6 @@ exports.updateStudent = async (req, res) => {
         const email = req.params.email
         const { first_name, last_name } = req.body
         const {rows} = await pool.query(`SELECT *  FROM tbl_students WHERE tbl_students.email=$1`, [email])
-        console.log({rows})
         if (rows.length < 1) {
             return res.status(409).send({ messege: "student not exist" })
         }
